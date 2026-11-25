@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Marketing designs by Mariyam Nesha – static ads, video ads, banners and brochures.">
+  <title>Marketing | Mariyam Nesha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #F47B20;
+      --peach: #FFD3B4;
+      --peach-line: #F9B98C;
+      --dark: #161616;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #fff; color: #111; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; }
+
+    /* ---------- Navbar ---------- */
+    .nav-wrap { padding: 40px 70px 0; }
+    .navbar {
+      max-width: 1300px; margin: 0 auto;
+      background: var(--dark); border-radius: 50px; height: 86px;
+      padding: 0 8px 0 34px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .navbar .logo img { height: 100px; display: block; }
+    .nav-links { display: flex; list-style: none; gap: 10px; }
+    .nav-links a {
+      display: block; color: #fff; font-size: 20px;
+      padding: 18px 40px; border-radius: 40px;
+      transition: background .25s, color .25s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-links a.active { background: var(--orange); color: #fff; }
+
+    main { max-width: 1300px; margin: 0 auto; padding: 0 70px 100px; box-sizing: content-box; }
+
+    /* ---------- Title ---------- */
+    .page-title { text-align: center; font-size: 48px; font-weight: 600; margin: 76px 0 38px; letter-spacing: -0.5px; }
+    .page-title span { color: var(--orange); }
+
+    /* ---------- Info box ---------- */
+    .info {
+      background: var(--peach); border-radius: 28px;
+      padding: 44px 56px 50px;
+    }
+    .info p { text-align: center; font-size: 19px; line-height: 1.6; max-width: 1050px; margin: 0 auto 36px; }
+    .info-row { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 24px; }
+    .info-box { border: 1.5px solid var(--peach-line); border-radius: 14px; padding: 14px 22px 18px; }
+    .info-box h4 { font-size: 19px; font-weight: 600; margin-bottom: 10px; }
+    .tools { display: flex; gap: 14px; }
+    .tools img { width: 50px; height: 50px; display: block; border-radius: 10px; }
+    .industries { font-size: 17px; line-height: 1.8; }
+    .industries span { display: inline-block; }
+    .industries span:not(:last-child)::after { content: "|"; margin: 0 10px; color: #444; }
+
+    /* ---------- Galleries ---------- */
+    .gallery {
+      margin-top: 50px;
+      border: 1.5px solid #ececec; border-radius: 28px;
+      position: relative;
+    }
+    .gallery-head {
+      position: absolute; top: -22px; left: 26px;
+      background: #fff; border: none; cursor: pointer;
+      font-size: 28px; font-weight: 500; color: #111;
+      padding: 0 14px; display: flex; align-items: center; gap: 14px;
+    }
+    .chev {
+      width: 13px; height: 13px;
+      border-left: 3px solid #111; border-top: 3px solid #111;
+      transform: rotate(45deg) translate(3px, 3px);
+      transition: transform .3s;
+    }
+    .gallery:not(.open) .chev { transform: rotate(225deg) translate(3px, 3px); }
+    .gallery-body { overflow: hidden; transition: max-height .45s ease; }
+    .gallery:not(.open) .gallery-body { max-height: 0 !important; }
+    .gallery:not(.open) { min-height: 40px; }
+    .grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 26px; padding: 54px 50px 50px;
+    }
+    .item {
+      aspect-ratio: 1 / 1; border-radius: 6px; overflow: hidden;
+      background: #f2ece7; cursor: zoom-in; position: relative;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .item:hover { transform: translateY(-5px); box-shadow: 0 12px 26px rgba(0,0,0,.15); }
+    .item img, .item video { width: 100%; height: 100%; object-fit: cover; display: block; }   /* videos fill the box like the images */
+    /* PDF preview: fills the box; clicks pass through so the item opens in the lightbox */
+    .item iframe { width: 100%; height: 100%; border: 0; display: block; pointer-events: none; background: #fff; }
+    .play {
+      position: absolute; top: 50%; left: 50%;
+      width: 62px; height: 62px; margin: -31px 0 0 -31px;
+      background: rgba(255,255,255,.92); border-radius: 50%;
+      box-shadow: 0 4px 14px rgba(0,0,0,.2);
+      transition: transform .25s;
+    }
+    .play::after {
+      content: ""; position: absolute; top: 50%; left: 50%;
+      border-style: solid; border-width: 11px 0 11px 18px;
+      border-color: transparent transparent transparent #222;
+      transform: translate(-35%, -50%);
+    }
+    .reel { cursor: pointer; }
+    .reel:hover .play { transform: scale(1.1); }
+    .play { pointer-events: none; }
+
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-4 .item { aspect-ratio: 3 / 4.3; }
+    @media (max-width: 720px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ---------- Lightbox ---------- */
+    .lightbox {
+      position: fixed; inset: 0; background: rgba(0,0,0,.85);
+      display: none; align-items: center; justify-content: center;
+      z-index: 100; padding: 30px;
+    }
+    .lightbox.show { display: flex; }
+    .lightbox img, .lightbox video { max-width: 90vw; max-height: 88vh; border-radius: 10px; display: block; }
+    .lightbox iframe { width: min(90vw, 900px); height: 88vh; border: 0; border-radius: 10px; background: #fff; display: block; }   /* brochure PDFs */
+    .lightbox .close {
+      position: absolute; top: 20px; right: 28px;
+      background: none; border: none; color: #fff; font-size: 44px; cursor: pointer; line-height: 1;
+    }
+
+    /* ---------- Footer ---------- */
+    footer {
+      background: #000; color: #fff; padding: 16px 60px;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    }
+    footer .copy { font-size: 18px; }
+    footer .f-logo img { height: 100px; display: block; }
+    footer .social { display: flex; align-items: center; justify-content: flex-end; gap: 23px; }
+    footer .social span { font-size: 18px; font-weight: 500; margin-right: -8px; }
+    footer .social img { width: 50px; height: 50px; display: block; border-radius: 6px; transition: transform .25s; }
+    footer .social a:hover img { transform: translateY(-4px); }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 1100px) {
+      .nav-links a { padding: 14px 24px; font-size: 18px; }
+      .info-row { grid-template-columns: 1fr; }
+      .grid { gap: 18px; padding: 50px 28px 30px; }
+    }
+    @media (max-width: 720px) {
+      .nav-wrap { padding: 20px 16px 0; }
+      .navbar { height: auto; padding: 14px 16px; flex-direction: column; gap: 12px; border-radius: 30px; }
+      .nav-links { flex-wrap: wrap; justify-content: center; gap: 4px; }
+      .nav-links a { padding: 10px 18px; font-size: 16px; }
+      main { padding: 0 16px 60px; }
+      .page-title { font-size: 34px; margin-top: 44px; }
+      .info { padding: 28px 20px; }
+      .info p { font-size: 16px; }
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 44px 14px 18px; }
+      .gallery-head { font-size: 22px; }
+      .play { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
+      .play::after { border-width: 8px 0 8px 13px; }
+      footer { grid-template-columns: 1fr; gap: 22px; text-align: center; padding: 20px 20px; }
+      footer .f-logo img { margin: 0 auto; }
+      footer .social { justify-content: center; flex-wrap: wrap; gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header / Navigation ===== -->
+  <header class="nav-wrap">
+    <nav class="navbar">
+      <a href="index.html" class="logo"><img src="Image/Common/Logo.png" alt="MN logo"></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="graphic-design.html" class="active" aria-current="page">Projects</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1 class="page-title">Marketing</h1>
+
+    <!-- ===== Intro, tools & industries ===== -->
+    <section class="info">
+      <p>I design creative marketing assets that communicate brand messages, promote products, and support digital campaigns. From video advertisements and promotional creatives to app store visuals and campaign graphics, I focus on creating impactful designs that align with marketing objectives and brand identity.</p>
+      <div class="info-row">
+        <div class="info-box">
+          <h4>Tools</h4>
+          <div class="tools">
+            <img src="Image/Common/Photoshop.png" alt="Photoshop">
+            <img src="Image/Common/Illustrator.png" alt="Illustrator">
+            <img src="Image/Common/Figma.png" alt="Figma">
+            <img src="Image/Common/After Effect.png" alt="After Effects">
+          </div>
+        </div>
+        <div class="info-box">
+          <h4>Industries</h4>
+          <div class="industries">
+            <span>Fitness</span><span>Jewellery</span><span>Healthcare</span><span>Food And Beverage</span><span>Manufacturing</span><span>Education</span><span>Non-Profit Organizations</span><span>Technology</span><span>Retail</span><span>Fashion</span><span>Travel And Tourism</span><span>Game</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Static Ads ===== -->
+    <section class="gallery">
+      <button class="gallery-head" type="button" aria-expanded="false">Static Ads <span class="chev"></span></button>
+      <div class="gallery-body">
+        <div class="grid">
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA1.jpg" alt="Static Ad 1" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA2.jpg" alt="Static Ad 2" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA3.png" alt="Static Ad 3" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA4.jpg" alt="Static Ad 4" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA5.jpg" alt="Static Ad 5" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA6.png" alt="Static Ad 6" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA7.jpg" alt="Static Ad 7" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA8.png" alt="Static Ad 8" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA9.png" alt="Static Ad 9" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA10.jpg" alt="Static Ad 10" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA11.png" alt="Static Ad 11" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA12.jpg" alt="Static Ad 12" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA13.png" alt="Static Ad 13" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA14.png" alt="Static Ad 14" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA15.jpg" alt="Static Ad 15" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA16.png" alt="Static Ad 16" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA17.png" alt="Static Ad 17" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Statics Ads/SA18.png" alt="Static Ad 18" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Video Ads ===== -->
+    <section class="gallery">
+      <button class="gallery-head" type="button" aria-expanded="false">Video Ads <span class="chev"></span></button>
+      <div class="gallery-body">
+        <div class="grid">
+          <div class="item reel">
+            <video src="Image/Marketing/Video Ads/1.mp4" poster="Image/Marketing/Video Ads/1.png" muted playsinline preload="metadata" aria-label="Video ad 1"></video>
+            <span class="play"></span>
+          </div>
+          <div class="item reel">
+            <video src="Image/Marketing/Video Ads/2.mp4" poster="Image/Marketing/Video Ads/2.png" muted playsinline preload="metadata" aria-label="Video ad 2"></video>
+            <span class="play"></span>
+          </div>
+          <div class="item reel">
+            <video src="Image/Marketing/Video Ads/3.mp4" poster="Image/Marketing/Video Ads/3.png" muted playsinline preload="metadata" aria-label="Video ad 3"></video>
+            <span class="play"></span>
+          </div>
+          <div class="item reel">
+            <video src="Image/Marketing/Video Ads/4.mp4" poster="Image/Marketing/Video Ads/4.png" muted playsinline preload="metadata" aria-label="Video ad 4"></video>
+            <span class="play"></span>
+          </div>
+          <div class="item reel">
+            <video src="Image/Marketing/Video Ads/5.mp4" poster="Image/Marketing/Video Ads/5.png" muted playsinline preload="metadata" aria-label="Video ad 5"></video>
+            <span class="play"></span>
+          </div>
+          <div class="item reel">
+            <video src="Image/Marketing/Video Ads/6.mp4" poster="Image/Marketing/Video Ads/6.png" muted playsinline preload="metadata" aria-label="Video ad 6"></video>
+            <span class="play"></span>
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Video Ads/7.gif"  alt="Video ad 7" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Video Ads/8.gif"  alt="Video ad 8" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Video Ads/9.gif"  alt="Video ad 9" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Banner / Brochure ===== -->
+    <section class="gallery">
+      <button class="gallery-head" type="button" aria-expanded="false">Banner / Brochure <span class="chev"></span></button>
+      <div class="gallery-body">
+        <div class="grid grid-4">
+          <div class="item">
+            <img src="Image/Marketing/Banner _ Brochure/B1.png" alt="Banner 1" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Banner _ Brochure/B2.png" alt="Banner 2" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Banner _ Brochure/B3.jpeg" alt="Banner 3" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="Image/Marketing/Banner _ Brochure/B4.png" alt="Banner 4" loading="lazy">
+          </div>
+          <div class="item" data-pdf="Image/Marketing/Banner _ Brochure/B5.pdf">
+            <img src="Image/Marketing/Banner _ Brochure/1.png" alt="Brochure 5" loading="lazy">
+          </div>
+          <div class="item" data-pdf="Image/Marketing/Banner _ Brochure/B6.pdf">
+            <img src="Image/Marketing/Banner _ Brochure/2.png" alt="Brochure 6" loading="lazy">
+          </div>
+          <div class="item" data-pdf="Image/Marketing/Banner _ Brochure/B7.pdf">
+            <img src="Image/Marketing/Banner _ Brochure/3.png" alt="Brochure 7" loading="lazy">
+          </div>
+          <div class="item" data-pdf="Image/Marketing/Banner _ Brochure/B8.pdf">
+            <img src="Image/Marketing/Banner _ Brochure/4.png" alt="Brochure 8" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="copy">© 2026 By Mariyam Nesha</div>
+    <a href="index.html" class="f-logo"><img src="Image/Common/Logo.png" alt="MN logo"></a>
+    <div class="social">
+      <span>Follow :</span>
+      <a href="https://www.behance.net/mariyamnesha3" target="_blank" rel="noopener" aria-label="Behance"><img src="Image/Common/Behance.png" alt="Behance"></a>
+      <a href="https://dribbble.com/mary333333333" target="_blank" rel="noopener" aria-label="Dribbble"><img src="Image/Common/Dribbble.png" alt="Dribbble"></a>
+      <a href="mailto:mariyamnesha3@gmail.com" aria-label="Gmail"><img src="Image/Common/Gmail.png" alt="Gmail"></a>
+      <a href="https://www.linkedin.com/in/mariyam-nesha-05b04a190/" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="Image/Common/LinkedIn.png" alt="LinkedIn"></a>
+    </div>
+  </footer>
+
+  <!-- ===== Lightbox: images open large, videos play, brochures open as PDF ===== -->
+  <div class="lightbox" id="lightbox">
+    <button class="close" type="button" aria-label="Close">&times;</button>
+    <div class="lb-content"></div>
+  </div>
+
+  <script>
+    /* ----- Collapsible galleries ----- */
+    function fit() {
+      document.querySelectorAll('.gallery-body').forEach(function (b) {
+        b.style.maxHeight = b.scrollHeight + 'px';
+      });
+    }
+
+    document.querySelectorAll('.gallery').forEach(function (g) {
+      var head = g.querySelector('.gallery-head');
+      head.addEventListener('click', function () {
+        fit();
+        var open = g.classList.toggle('open');
+        head.setAttribute('aria-expanded', open);
+      });
+    });
+
+    fit();
+    window.addEventListener('load', fit);
+    window.addEventListener('resize', fit);
+    /* lazy images and videos can change the height after loading – re-measure each time */
+    document.querySelectorAll('.gallery img').forEach(function (img) { img.addEventListener('load', fit); });
+    document.querySelectorAll('.gallery video').forEach(function (v) { v.addEventListener('loadedmetadata', fit); });
+
+    /* ----- Lightbox ----- */
+    var lb = document.getElementById('lightbox');
+    var content = lb.querySelector('.lb-content');
+
+    document.querySelectorAll('.item').forEach(function (item) {
+      item.addEventListener('click', function () {
+        var video = item.querySelector('video');
+        var pdfLink = item.getAttribute('data-pdf');
+        var img = item.querySelector('img');
+        if (pdfLink) {
+          content.innerHTML = '<iframe src="' + pdfLink + '" title="Brochure"></iframe>';
+        } else if (video) {
+          content.innerHTML = '<video src="' + video.getAttribute('src') + '" controls autoplay playsinline></video>';
+        } else if (img) {
+          content.innerHTML = '<img src="' + img.getAttribute('src') + '" alt="' + img.alt + '">';
+        }
+        lb.classList.add('show');
+      });
+    });
+
+    function closeLb() { lb.classList.remove('show'); content.innerHTML = ''; }   /* also stops the video */
+    lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('close')) closeLb(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLb(); });
+  </script>
+</body>
+</html>
